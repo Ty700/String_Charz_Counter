@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/tyler/Coding_Workspace/C++/String_Charz_Counter/build",
+  "command": "/usr/bin/c++  -I/home/tyler/Coding_Workspace/C++/String_Charz_Counter/lib -O3 -DNDEBUG -std=gnu++17 -Wall -Wextra -o CMakeFiles/String_Charz_Counter.dir/src/main.cpp.o -c /home/tyler/Coding_Workspace/C++/String_Charz_Counter/src/main.cpp",
+  "file": "/home/tyler/Coding_Workspace/C++/String_Charz_Counter/src/main.cpp",
+  "output": "CMakeFiles/String_Charz_Counter.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/tyler/Coding_Workspace/C++/String_Charz_Counter/build",
+  "command": "/usr/bin/c++  -I/home/tyler/Coding_Workspace/C++/String_Charz_Counter/lib -O3 -DNDEBUG -std=gnu++17 -Wall -Wextra -o CMakeFiles/String_Charz_Counter.dir/src/string_charz.cpp.o -c /home/tyler/Coding_Workspace/C++/String_Charz_Counter/src/string_charz.cpp",
+  "file": "/home/tyler/Coding_Workspace/C++/String_Charz_Counter/src/string_charz.cpp",
+  "output": "CMakeFiles/String_Charz_Counter.dir/src/string_charz.cpp.o"
+}
+]
