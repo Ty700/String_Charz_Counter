@@ -12,7 +12,7 @@
 #   Default:                                             #
 #       NONE                                             #
 #           Features:                                    #
-#               [X] String_Charz_Coutner                 #
+#               [X] String_Charz_Counter                 #
 #                   binary located in ./bin              #
 #   Clean:                                               #       
 #       -c                                               #   
@@ -24,7 +24,7 @@
 #   Debug:                                               #
 #       -d                                               #
 #           Features:                                    #
-#               [X] String_Charz_Coutner                 #
+#               [X] String_Charz_Counter                 #
 #                   binary located in ./bin              #
 #               [X] Debug statements throughout runtime  #
 #                                                        #
@@ -69,7 +69,7 @@ def make_prod():
         make_build_dir()
 
         cmd = "cmake .. -DCMAKE_BUILD_TYPE=Release && cmake --build ."
-        print(f"Running: cd build/ && {cmd}")
+        print(f"[DEBUG] Running: cd build/ && {cmd}")
         subprocess.run(cmd, shell=True, cwd="./build")
 
 
@@ -78,12 +78,12 @@ def make_debug():
     make_build_dir()
 
     cmd = "cmake -DCMAKE_BUILD_TYPE=Debug .. && cmake --build ."
-    print(f"Running: cd build/ && {cmd}")
+    print(f"[DEBUG] Running: cd build/ && {cmd}")
     subprocess.run(cmd, shell=True, cwd="./build")
 
 def run(version):
-    cmd = f"./bin/{version}/String_Charz_Coutner"
-    print(f"Running: {cmd}")
+    cmd = f"./bin/{version}/String_Charz_Counter"
+    print(f"[DEBUG] Running: {cmd}")
     subprocess.run(cmd.split())
 
 def main():

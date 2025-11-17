@@ -10,5 +10,5 @@ class String_Charz {
 		int get_stat(const char& key) {return charz_stats[key]; }
 
 	private:
-		std::unordered_map<char, int> charz_stats {};
+		std::unordered_map<char, int> charz_stats{};
 };
