@@ -15,5 +15,5 @@ int main(){
 	}
 	
 	/* Init counter */
-	auto counter = std::make_unique<String_Charz>(files); 
+	auto counter = std::make_unique<StringCharz>(files); 
 }

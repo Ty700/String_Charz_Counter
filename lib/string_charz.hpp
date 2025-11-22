@@ -4,7 +4,9 @@
 #include <string>
 #include <unordered_map>
 
-class String_Charz {
+#include "util.hpp"
+
+class StringCharz {
 	private:
 		enum keys {
 			WORDS,
@@ -14,22 +16,13 @@ class String_Charz {
 		};
 
 	public:
-		String_Charz(const std::vector<std::string> v) : files{v}
+		StringCharz(const std::vector<std::string> v) : files{v}
 		{	
-			#ifdef DEBUG 
-			 std::cout << "[DEBUG] Files: \n";
-
-			 for(auto file : files){
-				 std::cout << "[DEBUG]\t" << file << "\n";
-			 }
-
-			 std::cout << std::endl;
-			#endif /* DEBUG */
-			
+			for(auto file : files){ LOG(file); }
 			get_charz_of(files);
 		};
 
-		~String_Charz() {};
+		~StringCharz() {};
 	
 	private:
 		const std::vector<std::string> files {};
