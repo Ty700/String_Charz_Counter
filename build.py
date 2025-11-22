@@ -78,12 +78,10 @@ def make_debug():
     make_build_dir()
 
     cmd = "cmake -DCMAKE_BUILD_TYPE=Debug .. && cmake --build ."
-    print(f"[DEBUG] Running: cd build/ && {cmd}")
     subprocess.run(cmd, shell=True, cwd="./build")
 
 def run(version):
     cmd = f"./bin/{version}/String_Charz_Counter"
-    print(f"[DEBUG] Running: {cmd}")
     subprocess.run(cmd.split())
 
 def main():
