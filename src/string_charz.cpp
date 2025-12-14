@@ -1,11 +1,13 @@
 #include "string_charz.hpp"
 
+#include <cctype>
 #include <cstddef>
 #include <cstdio>
 #include <fstream>
 #include <iostream>
 #include <ostream>
 #include <string>
+#include <algorithm>
 
 static std::string filterFileName(const std::string& file_name)
 {
@@ -122,15 +124,24 @@ void StringCharz::countWords(const std::string& str, std::ostream& outFile)
 
 void StringCharz::countLines(const std::string& str, std::ostream& outFile)
 {
-	auto line_count = 0;
+	if(str.empty())
+	{
+		outFile << "Total Lines: 0";
+		return;
+	}
+
+	auto line_count = 1;
+
 	for(size_t i = 0; i < str.length(); i++)
 	{
 		if(str[i] == '\n')
 			line_count += 1;
 	}
 
-	std::string res = "Total Lines: " + std::to_string(line_count) + '\n';
+	if(str.back() == '\n')
+		line_count -= 1;
 
+	std::string res = "Total Lines: " + std::to_string(line_count) + '\n';
 	outFile << res;
 }
 
@@ -195,21 +206,27 @@ void StringCharz::calLongestWord(const std::string& str, std::ostream& outFile)
 					longest_word.clear();
 					longest_word.push_back(str.substr(curr_word_start, curr_word_len));
 				}
-				
+
 				/* Covers words that are the same len and max len of str */
 				else if(curr_word_len == max_word_len)
 				{
-					/* TODO! DUPLICATE WORDS SHOULD NOT BE ADDED TO THE LONGEST WORD VEC */
-					longest_word.push_back(str.substr(curr_word_start, curr_word_len));
+					const std::string word = str.substr(curr_word_start, curr_word_len);
+
+					if(std::find(longest_word.begin(), longest_word.end(), word) == longest_word.end())
+					{
+						longest_word.push_back(str.substr(curr_word_start, curr_word_len));
+					}
+
 				}
-				
-				/* Reset */
-				in_word = false;
-				curr_word_len = 0;
 			}
+
+			/* Reset */
+			in_word = false;
+			curr_word_len = 0;
+			curr_word_start = 0;
 		}
 	}
-	
+
 	/* BUG FIX!!! 
 	 * IF FILE DOESN'T END WITH A NEW LINE THEN LAST WORD WON'T BE PROCESSED
 	 */
@@ -229,7 +246,13 @@ void StringCharz::calLongestWord(const std::string& str, std::ostream& outFile)
 		/* Covers words that are the same len and max len of str */
 		else if(curr_word_len == max_word_len)
 		{
-			longest_word.push_back(str.substr(curr_word_start, curr_word_len));
+			std::string word = str.substr(curr_word_start, curr_word_len);
+
+			if(std::find(longest_word.begin(), longest_word.end(), word) == longest_word.end())
+			{
+				longest_word.push_back(str.substr(curr_word_start, curr_word_len));
+			}
+
 		}
 
 	}
@@ -269,14 +292,36 @@ void StringCharz::calLongestWord(const std::string& str, std::ostream& outFile)
 	}
 }
 
-void StringCharz::countVowels(const std::string& str, std::ostream& outFile)
+void StringCharz::countVowelsAndConsonants(const std::string& str, std::ostream& outFile)
 {
- 
-}
+	auto vow = 0;
+	auto con = 0;
 
-void StringCharz::countConsonants(const std::string& str, std::ostream& outFile)
-{
+	for(size_t i = 0; i < str.length(); i++)
+	{
+		const char curr_char = std::tolower(str[i]);
 
+		if(std::isalpha(curr_char))
+		{
+			if(curr_char == 'a' ||
+			   curr_char == 'e' ||
+			   curr_char == 'i' ||
+			   curr_char == 'o' ||
+			   curr_char == 'u')
+			{
+				vow += 1;
+			}
+			else 
+			{
+				con += 1;
+			}
+		}
+	}
+
+	std::string res = "Total Vowels: " + std::to_string(vow) + '\n';
+	res += "Total Consonants: " + std::to_string(con) + '\n';
+
+	outFile << res;
 }
 
 void StringCharz::setupOperations()
@@ -293,7 +338,6 @@ void StringCharz::setupOperations()
 	operations.push_back([this](const std::string& s, std::ostream& o){ countLines(s, o); });
 	operations.push_back([this](const std::string& s, std::ostream& o){ countSpaces(s,o); });
 	operations.push_back([this](const std::string& s, std::ostream& o){ calLongestWord(s,o); });
-	operations.push_back([this](const std::string& s, std::ostream& o){ countVowels(s, o); });
-	operations.push_back([this](const std::string& s, std::ostream& o){ countConsonants(s, o); });
+	operations.push_back([this](const std::string& s, std::ostream& o){ countVowelsAndConsonants(s, o); });
 
 }

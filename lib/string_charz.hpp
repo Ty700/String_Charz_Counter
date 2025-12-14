@@ -35,6 +35,5 @@ class StringCharz {
 		void countLines(const std::string& str, std::ostream& outFile);
 		void countSpaces(const std::string& str, std::ostream& outFile);
 		void calLongestWord(const std::string& str, std::ostream& outFile);
-		void countVowels(const std::string& str, std::ostream& outFile);
-		void countConsonants(const std::string& str, std::ostream& outFile);
+		void countVowelsAndConsonants(const std::string& str, std::ostream& outFile);
 };
