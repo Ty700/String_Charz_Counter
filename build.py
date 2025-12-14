@@ -84,7 +84,17 @@ def run(version):
     cmd = f"./bin/{version}/String_Charz_Counter"
     subprocess.run(cmd.split())
 
+def deleteCharzFiles():
+    if os.path.exists('./test_files'):
+        cmd = f"rm -rf ./test_files/*charz*"
+        print(f"[DEBUG] RUNNING: {cmd}")
+        subprocess.run(cmd, shell=True)
+    else: 
+        print("[DEBUG] CAN'T FIND TEST_FILES")
+
 def main():
+    deleteCharzFiles()
+
     if len(sys.argv) == 1:
         make_prod()
         run("release")    
