@@ -15,6 +15,7 @@ class StringCharz {
 				for(auto file : files){ LOG(file); }
 			#endif /* DEBUG */
 			setupOperations();
+            createOutputDir();
 			getCharzOf(files);
 		};
 
@@ -23,6 +24,7 @@ class StringCharz {
 	private:
 		/* Member */
 		const std::vector<std::string> files {};
+        const std::string OUTPUT_DIR = "./output/";
 		std::vector<std::function<void(const std::string& str, std::ofstream& outfile)>> operations;
 	
 		/* Methods */
@@ -36,4 +38,6 @@ class StringCharz {
 		void countSpaces(const std::string& str, std::ostream& outFile);
 		void calLongestWord(const std::string& str, std::ostream& outFile);
 		void countVowelsAndConsonants(const std::string& str, std::ostream& outFile);
+        void countChars(const std::string& str, std::ostream& outFile);
+        void createOutputDir();
 };

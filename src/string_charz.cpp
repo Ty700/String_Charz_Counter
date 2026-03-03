@@ -11,25 +11,39 @@
 
 static std::string filterFileName(const std::string& file_name)
 {
-	auto idx = file_name.find(".txt");
+	/* Strip directory part so output goes into output_dir, not a nested path */
+	auto slash_idx = file_name.rfind('/');
+	const std::string base_name = (slash_idx == std::string::npos)
+		? file_name
+		: file_name.substr(slash_idx + 1);
+
+	auto idx = base_name.find(".txt");
 
 	if (idx == std::string::npos)
 	{
-		return file_name + "_charz.txt";
+		return base_name + "_charz.txt";
 	}
 
-	return file_name.substr(0, idx) +  "_charz.txt";
+	return base_name.substr(0, idx) + "_charz.txt";
 }
 
-static std::ofstream createCharzFile(const std::string& file_name)
+void StringCharz::createOutputDir()
+{
+    if (!std::filesystem::exists(this->OUTPUT_DIR))
+    {
+        std::filesystem::create_directory(this->OUTPUT_DIR);
+    }
+}
+
+static std::ofstream createCharzFile(const std::string& output_dir, const std::string& file_name)
 {
 	const std::string outfile_name = filterFileName(file_name); 
-	
-	std::ofstream outputFile(outfile_name);
+    const std::string full_path = output_dir + outfile_name;
+    std::ofstream outputFile(full_path);
 
 	if(!outputFile.is_open())
 	{
-		std::cerr << "[ERROR] Creating  file: " << file_name << " in " << __func__ << std::endl;
+		std::cerr << "[ERROR] Creating file: " << file_name << " in " << __func__ << std::endl;
 		std::abort();
 	}
 
@@ -68,7 +82,7 @@ void StringCharz::characterizeFile(const std::string& file_name)
 	LOG(str);
 	
 	/* Create charz output file */
-	std::ofstream outFile = createCharzFile(file_name);
+	std::ofstream outFile = createCharzFile(this->OUTPUT_DIR, file_name);
 
 	/* File is open */
 	/* Run suite of charz tests */
@@ -81,7 +95,7 @@ void StringCharz::characterizeFile(const std::string& file_name)
 
 /**
  * @FUNCTION: 	Top Level function call from constructor. 
- * @PARAM	Files - vector of paths to files to characterize 
+ * @PARAM	    Files - vector of paths to files to characterize 
  * @RETURNS 	VOID
  */
 void StringCharz::getCharzOf(const std::vector<std::string> files)
@@ -324,6 +338,13 @@ void StringCharz::countVowelsAndConsonants(const std::string& str, std::ostream&
 	outFile << res;
 }
 
+void StringCharz::countChars(const std::string& str, std::ostream& outFile)
+{
+    auto char_count = str.length();
+    std::string res = "Total Characters: " + std::to_string(char_count) + '\n';
+    outFile << res;
+}
+
 void StringCharz::setupOperations()
 {
 	/* IDEAS: 
@@ -333,11 +354,13 @@ void StringCharz::setupOperations()
 	 *	Calculate longest word 
 	 *	Number of Vowels
 	 *	Number of consonant 
+     *	Number of characters
 	 */
 	operations.push_back([this](const std::string& s, std::ostream& o){ countWords(s, o); });
 	operations.push_back([this](const std::string& s, std::ostream& o){ countLines(s, o); });
 	operations.push_back([this](const std::string& s, std::ostream& o){ countSpaces(s,o); });
 	operations.push_back([this](const std::string& s, std::ostream& o){ calLongestWord(s,o); });
 	operations.push_back([this](const std::string& s, std::ostream& o){ countVowelsAndConsonants(s, o); });
+    operations.push_back([this](const std::string& s, std::ostream& o){ countChars(s, o); });
 
 }
